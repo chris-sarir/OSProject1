@@ -11,7 +11,7 @@ public class main {
         try{
             String filename = null;
             if(args.length > 0){
-                throw new Exception();
+                throw new ProcessException("Error");
             }
             filename = args[0];
 
@@ -23,7 +23,7 @@ public class main {
             executeBatch(aBatch);
 
         }
-        catch (Exception e){
+        catch (ProcessException e){
             /*To be sent to our own exception handler*/
         }
     }
