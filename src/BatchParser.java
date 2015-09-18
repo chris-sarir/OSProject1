@@ -13,7 +13,7 @@ import java.io.FileInputStream;
  * Created by assar on 9/15/2015.
  */
 public class BatchParser {
-    public Batch buildBatch (File batchFile){
+    public static Batch buildBatch (File batchFile){
         Batch aBatch = null;
         Command aCommand = null;
 
@@ -40,7 +40,7 @@ public class BatchParser {
         return aBatch;
     }
 
-    public Command buildCommand (Element elem){
+    public static Command buildCommand (Element elem){
         String cmdName = elem.getNodeName();
         Command cmd = null;
 
