@@ -3,18 +3,11 @@
  */
 import org.w3c.dom.Element;
 
-//Coleman testing a push
-public class Command {
+public abstract class Command {
 
-    public String describe(){
-        return new String(); //Todo: description implementation goes here
-    }
+    public abstract String describe();
 
-    public void execute(String workingDir){
-        /*todo: execution implementation goes here*/
-    }
+    public abstract void execute(String workingDir);
 
-    public static Command parse(Element aElement){
-        return new Command(); //Todo: All parsing is done here somehow
-    }
+    public abstract void parse(Element element);
 }
