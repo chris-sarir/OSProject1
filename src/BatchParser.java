@@ -13,7 +13,7 @@ import java.io.FileInputStream;
  * Created by assar on 9/15/2015.
  */
 public class BatchParser {
-    public static Batch buildBatch (File batchFile){
+    public Batch buildBatch (File batchFile){
         Batch aBatch = null;
         Command aCommand = null;
 
@@ -40,7 +40,7 @@ public class BatchParser {
         return aBatch;
     }
 
-    public static Command buildCommand (Element elem){
+    public Command buildCommand (Element elem){
         String cmdName = elem.getNodeName();
         Command cmd = null;
 
@@ -49,20 +49,24 @@ public class BatchParser {
         }
         else if ("wd".equalsIgnoreCase(cmdName)) {
             System.out.println("Parsing wd");
-            cmd = WDCommand.parse(elem);
+            cmd = new WDCommand();
+            cmd.parse(elem);
         }
         else if ("file".equalsIgnoreCase(cmdName)) {
             System.out.println("Parsing file");
-            cmd = FileCommand.parse(elem);
+            cmd = new FileCommand();
+            cmd.parse(elem);
         }
         else if ("cmd".equalsIgnoreCase(cmdName)) {
             System.out.println("Parsing cmd");
-            cmd = CmdCommand.parse(elem);
+            cmd = new CmdCommand();
+            cmd.parse(elem);
             //parseCmd(elem); // Example of parsing a cmd element
         }
         else if ("pipe".equalsIgnoreCase(cmdName)) {
             System.out.println("Parsing pipe");
-            cmd = PipeCommand.parse(elem);
+            cmd = new PipeCommand();
+            cmd.parse(elem);
         }
         else {
             /*Throw our own exception*/
