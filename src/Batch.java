@@ -18,6 +18,10 @@ public class Batch {
         return workingDir;
     }
 
+    public void setWorkingDir(String aWD){
+        workingDir = aWD;
+    }
+
     public Map<String, Command> getCommands(){
         return commands;
     }
