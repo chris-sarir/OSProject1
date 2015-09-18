@@ -39,7 +39,7 @@ public class BatchParser {
         }
         return aBatch;
     }
-
+//test
     public static Command buildCommand (Element elem){
         String cmdName = elem.getNodeName();
         Command cmd = null;
