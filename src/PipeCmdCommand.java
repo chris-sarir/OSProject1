@@ -13,6 +13,8 @@ public class PipeCmdCommand extends Command
     public void execute(String workingDir)
     {
         /*todo: execution implementation goes here*/
+        System.out.println("Executing PipeCmdCommand");//TODO:Remove before delivery
+
     }
 
     public void parse(Element element)

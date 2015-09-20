@@ -8,12 +8,6 @@ import java.util.List;
  */
 public class PipeCommand  extends Command
 {
-    private String id;
-    private String path;
-    private List<String> cmdArgs = new ArrayList<String>();
-    private String arg;
-    private String in;
-    private String out;
 
     public String describe()
     {
