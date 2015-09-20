@@ -16,6 +16,8 @@ public class FileCommand extends Command
     public void execute(String workingDir)
     {
         /*todo: execution implementation goes here*/
+        System.out.println("Executing FileCommand");//TODO:Remove before delivery
+
     }
 
     public void parse(Element element)

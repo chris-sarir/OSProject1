@@ -16,6 +16,8 @@ public class WDCommand extends Command
     public void execute(String workingDir)
     {
         /*todo: execution implementation goes here*/
+        System.out.println("Executing WDCommand");//TODO:Remove before delivery
+
     }
 
     public void parse(Element element)
