@@ -2,12 +2,23 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by assar on 9/15/2015.
  */
 public class PipeCommand  extends Command
 {
+    private String inId;
+    private String outId;
+    private List<String> inArgs = new ArrayList<String>();
+    private List<String> outArgs = new ArrayList<String>();
+    private String inArg;
+    private String outArg;
+    private String inPath;
+    private String outPath;
+    private String inFile;
+    private String outFile;
 
     public String describe()
     {
@@ -23,7 +34,37 @@ public class PipeCommand  extends Command
 
     public void parse(Element element)
     {
-        //Todo: All parsing is done here somehow
+        //Todo: Catch some exceptions before delivery
+        if(element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("in") != null){
+            System.out.println("Parsing the in command"); // Todo: remove before delivery
+            inId = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("id").getNodeValue();
+            inPath = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("path").getNodeValue();
 
+            //get the 'args' from the XML line
+            inArg = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("args").getNodeValue();
+            //Todo: work on posibility of having more than one Arg
+//             inArg = element.getAttribute("args");
+//           if (!(inArg == null || inArg.isEmpty())){
+//                StringTokenizer st = new StringTokenizer(inArg);
+//                while (st.hasMoreTokens()){
+//                    String tok = st.nextToken();
+//                    inArgs.add(tok);
+//                }
+//            }
+
+            inFile = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("id").getNodeValue();
+
+        }
+        if(element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("out") != null){
+            System.out.println("Parsing the out command"); // Todo: remove before delivery
+            outId = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("id").getNodeValue();
+            outPath = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("path").getNodeValue();
+
+            //get the 'args' from the XML line
+            outArg = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("args").getNodeValue();
+            //Todo: work on posibility of having more than one Arg
+
+            outFile = element.getElementsByTagName("cmd").item(0).getAttributes().getNamedItem("id").getNodeValue();
+        }
     }
 }
