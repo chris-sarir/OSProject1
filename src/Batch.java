@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -7,11 +8,11 @@ public class Batch {
     /*Batch implementation goes here*/
 
     private String workingDir;
-    private Map<String, Command> commands;
+    private HashMap<Integer, Command> commands = new HashMap<Integer, Command>();
 
     public void addCommand(Command aCommand){
         /*Put command stuff here*/
-        commands.put(aCommand.describe(), aCommand);//todo: not sure if description is what is used for the String here
+        commands.put(commands.size()+1, aCommand);//todo: review the use of Integer instead of String
     }
 
     public String getWorkingDir(){
@@ -22,7 +23,7 @@ public class Batch {
         workingDir = aWD;
     }
 
-    public Map<String, Command> getCommands(){
+    public Map<Integer, Command> getCommands(){
         return commands;
     }
 }

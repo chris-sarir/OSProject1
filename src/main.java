@@ -10,8 +10,8 @@ public class main {
     {
         try{
             String filename = null;
-            if(args.length > 0){
-                throw new ProcessException("Error");
+            if(args.length < 1){
+                throw new ProcessException("Batch file not found.");
             }
             filename = args[0];
 
@@ -30,7 +30,7 @@ public class main {
 
     public static void executeBatch(Batch aBatch){
 
-        for(Map.Entry<String,Command> command : aBatch.getCommands().entrySet()){
+        for(Map.Entry<Integer,Command> command : aBatch.getCommands().entrySet()){
             command.getValue().describe();
             command.getValue().execute(aBatch.getWorkingDir());
         }

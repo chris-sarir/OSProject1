@@ -14,7 +14,7 @@ import java.io.FileInputStream;
  */
 public class BatchParser {
     public static Batch buildBatch (File batchFile){
-        Batch aBatch = null;
+        Batch aBatch = new Batch();
         Command aCommand = null;
 
         try {
@@ -36,6 +36,7 @@ public class BatchParser {
         }
         catch (Exception e) {
             /*Send to exception Handler method*/
+            e.printStackTrace();//TODO:Remove and send to ProcessException when ready
         }
         return aBatch;
     }
