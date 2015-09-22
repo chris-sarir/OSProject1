@@ -30,6 +30,9 @@ public class CmdCommand extends Command
         commandInfo.put(id, path);
 
         ProcessBuilder builder = new ProcessBuilder();
+
+        builder.command(path);
+
         for (int i = 0; i < cmdArgs.size(); i++)
         {
             builder.command(cmdArgs.get(i));
