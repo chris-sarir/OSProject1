@@ -10,7 +10,7 @@ public class FileCommand extends Command
 
 	public String describe()
     {
-        return null; //Todo: description implementation goes here
+        return new String("File Command on file: " + this.path); //Todo: description implementation goes here
     }
 
     public void execute(String workingDir)

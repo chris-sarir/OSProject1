@@ -31,7 +31,7 @@ public class main {
     public static void executeBatch(Batch aBatch){
 
         for(Map.Entry<Integer,Command> command : aBatch.getCommands().entrySet()){
-            command.getValue().describe();
+            System.out.println(command.getValue().describe());
             command.getValue().execute(aBatch.getWorkingDir());
         }
 
