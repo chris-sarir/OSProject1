@@ -13,8 +13,10 @@ import java.io.FileInputStream;
  * Created by assar on 9/15/2015.
  */
 public class BatchParser {
+    public static Batch aBatch;
+
     public static Batch buildBatch (File batchFile){
-        Batch aBatch = new Batch();
+        aBatch = new Batch();
         Command aCommand = null;
 
         try {
