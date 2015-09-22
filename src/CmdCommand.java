@@ -18,7 +18,7 @@ public class CmdCommand extends Command
 
 	public String describe()
     {
-        return null; //Todo: description implementation goes here
+        return new String("Commmand: " + id); //Todo: description implementation goes here
     }
 
     public void execute(String workingDir)
