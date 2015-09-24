@@ -24,54 +24,61 @@ public class CmdCommand extends Command
 
     public void execute(String workingDir)
     {
-        /*todo: execution implementation goes here*/
 
-        //put the 'id' and 'path' into the abstract Command class shared Map
-        //commandInfo.put(id, path);
-
+    	System.out.println("Executing CmdCommand");
+    	
+    	//Create the Process builder
         ProcessBuilder builder = new ProcessBuilder();
-
-        System.out.print("Placing the the command on the builder: " + path + " ");
-        builder.command(path);
-
-        for (int i = 0; i < cmdArgs.size(); i++)
-        {
-        	System.out.print(cmdArgs.get(i) + " ");
-            builder.command(cmdArgs.get(i));
-        }
-        System.out.println();
-       //builder.command(arg);
+        
+        
+        //Sets the builders working directory
         builder.directory(new File(workingDir));
+        
+        //Creates a file of the builders directory
         File wd = builder.directory();
-
+        
+        //If the command has a file that is directed into the stdIn 
+        //redirect it to the builders input
         if (in != null) {
+        	System.out.println("Redirecting input to " + commandInfo.get(in));
             File inFile = new File(wd, commandInfo.get(in));
             builder.redirectInput(inFile);
         }
+        
+        //If the command has a file that is directed out of the stdOut 
+        //redirect it to the builders output
         if (out != null) {
-        	//System.out.println(commandInfo.get(out));
+        	System.out.println("Redirecting output to " + commandInfo.get(out));
             File outFile = new File(wd, commandInfo.get(out));
             builder.redirectOutput(outFile);
-            System.out.println("Redirecting output to " + commandInfo.get(out));
         }
+        
+        builder.command(cmdArgs);
+        
+        System.out.println();
         
         Process process = null;
         
         try {
+        	
             process = builder.start();
+            
         } catch (IOException e) {
+        	System.out.println("** The process is failing to start **");
+        	
             e.printStackTrace();
+            
         }
         
         try {
+        	
             if (process != null) {
                 process.waitFor();
+                process.exitValue();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
-        System.out.println("Executing CmdCommand");//TODO:Remove before delivery
     }
 
     public void parse(Element element)
@@ -88,20 +95,20 @@ public class CmdCommand extends Command
             //Uncomment this line once we include catching exceptions
             //throw new Process Exception("Missing PATH in CMD Command");
         }*/
-        //put the 'id' and 'path' into the abstract Command class shared Map
-      //  commandInfo.put(id, path);
-
+        
+        cmdArgs.add(path);
         //get the 'args' from the XML line
+        //and places each token in a ArrayList
         String arg = element.getAttribute("args");
-        if (!(arg == null || arg.isEmpty())){
+        if (!arg.isEmpty()){
             StringTokenizer st = new StringTokenizer(arg);
             while (st.hasMoreTokens()){
                 String tok = st.nextToken();
                 cmdArgs.add(tok);
             }
         }
-        //get the "in" from the XML line
         
+        //get the "in" from the XML line
         if (!element.getAttribute("in").isEmpty()){
             //print 'in' or process exception
         	in = element.getAttribute("in");
@@ -113,13 +120,17 @@ public class CmdCommand extends Command
         	out = element.getAttribute("out");
         }
         
+        commandInfo.put(id, path);
+        
         System.out.println("********************Cmd Command Parsed INFO******************");
         System.out.println("id: " + this.id);
         System.out.println("path: " + this.path);
         System.out.println("in: " + this.in);
         System.out.println("out: " + this.out);
         System.out.println("*************************************************************");
-        
+        System.out.println("\n\nTesting Contents in commandInfo\n" + commandInfo + "\n\n");
+        System.out.println("*************************************************************");
+
         
     }
 }

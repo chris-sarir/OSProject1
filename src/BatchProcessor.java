@@ -13,6 +13,7 @@ public class BatchProcessor {
             if(args.length < 1){
                 throw new ProcessException("Batch file not found.");
             }
+            
             filename = args[0];
 
             System.out.println("Opening " + filename);
@@ -21,6 +22,7 @@ public class BatchProcessor {
             Batch aBatch = BatchParser.buildBatch(f);
 
             executeBatch(aBatch);
+            System.out.println("done");
 
         }
         catch (ProcessException e){
