@@ -1,5 +1,6 @@
 import org.w3c.dom.Element;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -20,6 +21,11 @@ public class PipeCommand  extends Command
     private String inFile;
     private String outFile;
 
+    private PipeCmdCommand inCmd = new PipeCmdCommand();
+    private PipeCmdCommand outCmd = new PipeCmdCommand();
+
+
+
     public String describe()
     {
         return new String(); //Todo: description implementation goes here
@@ -29,44 +35,60 @@ public class PipeCommand  extends Command
     {
         /*todo: execution implementation goes here*/
         System.out.println("Executing PipeCommand");//TODO:Remove before delivery
+        try {
+            OutputStream os1 = inCmd.execute(workingDir);
 
+            FileInputStream fis = new FileInputStream(new File(commandInfo.get( inCmd.getIOFileArg() )));
+
+            copyStreams(fis, os1);
+
+            OutputStream os2 = outCmd.execute(workingDir);
+
+            copyStreams(inCmd.getInputStream(), os2);
+
+            FileOutputStream fos = new FileOutputStream(new File (commandInfo.get( outCmd.getIOFileArg() )));
+
+            copyStreams(outCmd.getInputStream(), fos);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void parse(Element element)
     {
+        System.out.println("Parsing the in command"); // Todo: remove before delivery
+
         //Todo: Catch some exceptions before delivery
         for (int i = 0; i<2; i++) {
             if (element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("in") != null) {
-                System.out.println("Parsing the in command"); // Todo: remove before delivery
-                inId = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("id").getNodeValue();
-                inPath = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("path").getNodeValue();
-
-                //get the 'args' from the XML line
-                inArg = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("args").getNodeValue();
-                //Todo: work on posibility of having more than one Arg
-//             inArg = element.getAttribute("args");
-//           if (!(inArg == null || inArg.isEmpty())){
-//                StringTokenizer st = new StringTokenizer(inArg);
-//                while (st.hasMoreTokens()){
-//                    String tok = st.nextToken();
-//                    inArgs.add(tok);
-//                }
-//            }
-
-                inFile = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("id").getNodeValue();
-
+                inCmd.parse(((Element)element.getElementsByTagName("cmd").item(i)), true);
             }
             if (element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("out") != null) {
-                System.out.println("Parsing the out command"); // Todo: remove before delivery
-                outId = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("id").getNodeValue();
-                outPath = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("path").getNodeValue();
-
-                //get the 'args' from the XML line
-                outArg = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("args").getNodeValue();
-                //Todo: work on posibility of having more than one Arg
-
-                outFile = element.getElementsByTagName("cmd").item(i).getAttributes().getNamedItem("id").getNodeValue();
+                outCmd.parse(((Element)element.getElementsByTagName("cmd").item(i)), false);
             }
         }
+    }
+
+    static void copyStreams(final InputStream is, final OutputStream os) {
+        Runnable copyThread = (new Runnable() {
+            @Override
+            public void run()
+            {
+                try {
+                    int achar;
+                    while ((achar = is.read()) != -1) {
+                        os.write(achar);
+                    }
+                    os.close();
+                }
+                catch (IOException ex) {
+                    throw new RuntimeException(ex.getMessage(), ex);
+                }
+            }
+        });
+        new Thread(copyThread).start();
     }
 }
