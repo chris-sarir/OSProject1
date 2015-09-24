@@ -17,7 +17,8 @@ public class FileCommand extends Command
     {
         /*todo: execution implementation goes here*/
         System.out.println("Executing FileCommand");//TODO:Remove before delivery
-
+        //put the 'id' and 'path' into the abstract Command class shared Map
+        commandInfo.put(id, path);
     }
 
     public void parse(Element element)
@@ -34,7 +35,13 @@ public class FileCommand extends Command
             //Uncomment this line once we include catching exceptions
             //throw new Process Exception("Missing PATH in CMD Command");
         }
-        //put the 'id' and 'path' into the abstract Command class shared Map
-        commandInfo.put(id, path);
+        
+        
+        System.out.println("******************** File Command parsed INFO******************");
+        System.out.println("id: " + id);
+        System.out.println("path: " + path);
+        System.out.println("*************************************************************");
+        System.out.println("\n\nTesting Contents in commandInfo\n" + commandInfo + "\n\n");
+        System.out.println("*************************************************************");
     }
 }

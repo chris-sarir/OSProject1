@@ -11,12 +11,17 @@ public class WDCommand extends Command
 	public String describe()
     {
         return new String("The Working Directory will be set to " + path); //Todo: description implementation goes here
+        
     }
 
     public void execute(String workingDir)
     {
+    	
         /*todo: execution implementation goes here*/
-        System.out.println("Executing WDCommand");//TODO:Remove before delivery
+    	System.out.println("Executing WDCommand");//TODO:Remove before delivery
+        commandInfo.put(id, path);
+        BatchParser.aBatch.setWorkingDir(path);
+        
 
     }
 
@@ -35,6 +40,11 @@ public class WDCommand extends Command
             //throw new Process Exception("Missing PATH in CMD Command");
         }
         //put the 'id' and 'path' into the abstract Command class shared Map
-        commandInfo.put(id, path);
+       //commandInfo.put(id, path);
+       
+       System.out.println("******************** WD Command parsed INFO******************");
+       System.out.println("id: " + id);
+       System.out.println("path: " + path);
+       System.out.println("*************************************************************");
     }
 }
