@@ -38,6 +38,10 @@ public class WDCommand extends Command
             //throw new Process Exception("Missing PATH in CMD Command");
         }
         //put the 'id' and 'path' into the abstract Command class shared Map
-       // commandInfo.put(id, path);
+       commandInfo.put(id, path);
+       System.out.println("******************** WD Command parsed INFO******************");
+       System.out.println("id: " + id);
+       System.out.println("path: " + path);
+       System.out.println("*************************************************************");
     }
 }

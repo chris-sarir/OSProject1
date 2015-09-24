@@ -27,17 +27,20 @@ public class CmdCommand extends Command
         /*todo: execution implementation goes here*/
 
         //put the 'id' and 'path' into the abstract Command class shared Map
-        commandInfo.put(id, path);
+        //commandInfo.put(id, path);
 
         ProcessBuilder builder = new ProcessBuilder();
 
+        System.out.print("Placing the the command on the builder: " + path + " ");
         builder.command(path);
 
         for (int i = 0; i < cmdArgs.size(); i++)
         {
+        	System.out.print(cmdArgs.get(i) + " ");
             builder.command(cmdArgs.get(i));
         }
-       // builder.command(arg);
+        System.out.println();
+       //builder.command(arg);
         builder.directory(new File(workingDir));
         File wd = builder.directory();
 
@@ -46,15 +49,20 @@ public class CmdCommand extends Command
             builder.redirectInput(inFile);
         }
         if (out != null) {
+        	//System.out.println(commandInfo.get(out));
             File outFile = new File(wd, commandInfo.get(out));
             builder.redirectOutput(outFile);
+            System.out.println("Redirecting output to " + commandInfo.get(out));
         }
+        
         Process process = null;
+        
         try {
             process = builder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         try {
             if (process != null) {
                 process.waitFor();
@@ -62,6 +70,7 @@ public class CmdCommand extends Command
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         System.out.println("Executing CmdCommand");//TODO:Remove before delivery
     }
 
@@ -92,14 +101,25 @@ public class CmdCommand extends Command
             }
         }
         //get the "in" from the XML line
-        in = element.getAttribute("in");
-        /*if (!(in == null || in.isEmpty())){
+        
+        if (!element.getAttribute("in").isEmpty()){
             //print 'in' or process exception
-        }*/
+        	in = element.getAttribute("in");
+        }
         //get the "out" from the XML line
-        out = element.getAttribute("out");
-       /* if (!(out == null || out.isEmpty())){
+        
+        if (!element.getAttribute("out").isEmpty()){
             //print 'out' or process exception
-        }*/
+        	out = element.getAttribute("out");
+        }
+        
+        System.out.println("********************Cmd Command Parsed INFO******************");
+        System.out.println("id: " + this.id);
+        System.out.println("path: " + this.path);
+        System.out.println("in: " + this.in);
+        System.out.println("out: " + this.out);
+        System.out.println("*************************************************************");
+        
+        
     }
 }

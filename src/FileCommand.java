@@ -35,6 +35,14 @@ public class FileCommand extends Command
             //throw new Process Exception("Missing PATH in CMD Command");
         }
         //put the 'id' and 'path' into the abstract Command class shared Map
+        
         commandInfo.put(id, path);
+        
+        System.out.println("******************** File Command parsed INFO******************");
+        System.out.println("id: " + id);
+        System.out.println("path: " + path);
+        System.out.println("*************************************************************");
+        System.out.println("\n\nTesting Contents in commandInfo\n" + commandInfo + "\n\n");
+        System.out.println("*************************************************************");
     }
 }
