@@ -36,7 +36,5 @@ public class BatchProcessor {
             System.out.println(command.getValue().describe());
             command.getValue().execute(aBatch.getWorkingDir());
         }
-
     }
-
 }

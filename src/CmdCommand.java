@@ -55,7 +55,6 @@ public class CmdCommand extends Command
         
         builder.command(cmdArgs);
         
-        System.out.println();
         
         Process process = null;
         
@@ -127,9 +126,7 @@ public class CmdCommand extends Command
         System.out.println("path: " + this.path);
         System.out.println("in: " + this.in);
         System.out.println("out: " + this.out);
-        System.out.println("*************************************************************");
-        System.out.println("\n\nTesting Contents in commandInfo\n" + commandInfo + "\n\n");
-        System.out.println("*************************************************************");
+        
 
         
     }
