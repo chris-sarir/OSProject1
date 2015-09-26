@@ -35,13 +35,5 @@ public class FileCommand extends Command
             //Uncomment this line once we include catching exceptions
             //throw new Process Exception("Missing PATH in CMD Command");
         }
-        
-        
-        System.out.println("******************** File Command parsed INFO******************");
-        System.out.println("id: " + id);
-        System.out.println("path: " + path);
-        System.out.println("*************************************************************");
-        System.out.println("\n\nTesting Contents in commandInfo\n" + commandInfo + "\n\n");
-        System.out.println("*************************************************************");
     }
 }

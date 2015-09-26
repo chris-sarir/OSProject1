@@ -1,10 +1,2 @@
-/Batch.class
-/BatchParser.class
-/CmdCommand.class
-/Command.class
-/FileCommand.class
-/PipeCmdCommand.class
-/PipeCommand.class
-/Test.class
+/ProcessException.class
 /WDCommand.class
-/main.class
