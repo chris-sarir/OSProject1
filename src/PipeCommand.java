@@ -17,14 +17,24 @@ public class PipeCommand  extends Command
         return new String("Pipe Command"); //Todo: description implementation goes here
     }
 
-    public void execute(String workingDir)
+    public void execute(String workingDir) throws BatchSyntaxException //mdw
     {
         System.out.println("Executing PipeCommand");
         
-        try {
+        try { //mdw
+            if (commandInfo.get( inCmd.getIOFileArg() )==null)
+                throw new BatchSyntaxException("Undeclared Input file: " + inCmd.getIOFileArg());
+            if (commandInfo.get( outCmd.getIOFileArg() )==null)
+                throw new BatchSyntaxException("Undeclared Output file: " + outCmd.getIOFileArg());
+
             OutputStream os1 = inCmd.execute(workingDir);
           
             FileInputStream fis = new FileInputStream(workingDir + "\\"+commandInfo.get( inCmd.getIOFileArg() ));
+
+            System.out.println("###testing mdw: " + commandInfo.get( outCmd.getIOFileArg() )); // mdw
+
+            //FileInputStream fis = new FileInputStream(new File(commandInfo.get( inCmd.getIOFileArg() )));
+
 
             copyStreams(fis, os1);
 
@@ -36,10 +46,9 @@ public class PipeCommand  extends Command
 
             copyStreams(outCmd.getInputStream(), fos);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
         }
         
     }

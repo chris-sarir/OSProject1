@@ -2,12 +2,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by assar on 9/15/2015.
@@ -15,7 +19,7 @@ import java.io.FileInputStream;
 public class BatchParser {
     public static Batch aBatch;
 
-    public static Batch buildBatch (File batchFile){
+    public static Batch buildBatch (File batchFile) throws BatchSyntaxException {
         aBatch = new Batch();
         Command aCommand = null;
 
@@ -35,10 +39,18 @@ public class BatchParser {
                     aBatch.addCommand(buildCommand(elem));
                 }
             }
-        }
-        catch (Exception e) {
-            /*Send to exception Handler method*/
-            e.printStackTrace();//TODO:Remove and send to ProcessException when ready
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
+        } catch (SAXException e) {
+            e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
         }
         return aBatch;
     }

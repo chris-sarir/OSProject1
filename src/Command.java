@@ -12,7 +12,7 @@ public abstract class Command {
 
     public abstract String describe();
 
-    public abstract void execute(String workingDir);
+    public abstract void execute(String workingDir) throws BatchSyntaxException;
 
     public abstract void parse(Element element);
 }

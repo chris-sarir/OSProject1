@@ -3,7 +3,7 @@
 	<file id="file1" path="numberdata.txt" />
 	<file id="file2" path="avgout1.txt" />
 	<pipe>
-		<cmd id="addLines" path="java.exe" args="-jar addLines.jar" in='file1' />
+		<cmd id="addLines" path="java.exe" args="-jar addLines.jar" in='filee1' />
 		<cmd id="avgLines1" path="java.exe" args="-jar avgFile.jar" out='file2' />
 	</pipe>
 </batch>

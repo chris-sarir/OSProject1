@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -8,12 +7,14 @@ import java.util.Map;
 public class BatchProcessor {
     public static void main(String[] args)
     {
-        try{
+        try {
             String filename = null;
-            if(args.length < 1){
-                throw new ProcessException("Batch file not found.");
+            if (args.length < 1) {
+                //throw new ProcessException("Batch file not found.");
+                System.out.println("No batch file entered");//mdw
+                System.exit(0);
             }
-            
+
             filename = args[0];
 
             System.out.println("Opening " + filename);
@@ -21,20 +22,27 @@ public class BatchProcessor {
 
             Batch aBatch = BatchParser.buildBatch(f);
 
+
             executeBatch(aBatch);
             System.out.println("done");
 
-        }
-        catch (ProcessException e){
-            e.printStackTrace();
-        }
+        } catch (BatchSyntaxException e)
+        {System.exit(1);}//mdw
     }
 
-    public static void executeBatch(Batch aBatch){
+    public static void executeBatch(Batch aBatch) throws BatchSyntaxException{
 
         for(Map.Entry<Integer,Command> command : aBatch.getCommands().entrySet()){
             System.out.println(command.getValue().describe());
-            command.getValue().execute(aBatch.getWorkingDir());
+
+            try {//mdw
+                command.getValue().execute(aBatch.getWorkingDir());
+            } catch (BatchSyntaxException e) {//mdw
+                e.printStackTrace();
+                throw new BatchSyntaxException(e.getError());
+            }
+
+
         }
     }
 }

@@ -26,13 +26,15 @@ public class PipeCmdCommand
         return new String(""); //Todo: description implementation goes here
     }
 
-    public OutputStream execute(String workingDir) throws InterruptedException, IOException
-    {
+    public OutputStream execute(String workingDir) throws BatchSyntaxException, IOException {
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(this.processCommands);
         builder.directory(new File(workingDir));
         
         File wd = builder.directory();
+         if(!wd.isDirectory()){ //mdw
+        throw new BatchSyntaxException("Bad working directory: " + builder.directory());
+        }   //mdw
 
         final Process process = builder.start();
 

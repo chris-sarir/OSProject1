@@ -22,7 +22,7 @@ public class CmdCommand extends Command
         return "Commmand: " + id; //Todo: description implementation goes here
     }
 
-    public void execute(String workingDir)
+    public void execute(String workingDir)  throws BatchSyntaxException //mdw
     {
 
     	System.out.println("Executing CmdCommand");
@@ -32,21 +32,36 @@ public class CmdCommand extends Command
         
         
         //Sets the builders working directory
-        builder.directory(new File(workingDir));
+        File direct = new File(workingDir);
+        if (!direct.isDirectory()){ //mdw
+            throw new BatchSyntaxException("Bad working directory: " + workingDir);
+        } //mdw
+        builder.directory(direct);
         
         //Creates a file of the builders directory
         File wd = builder.directory();
-        
-        //If the command has a file that is directed into the stdIn 
+
+
+        //If the command has a file that is directed into the stdIn
         //redirect it to the builders input
         if (in != null) {
         	System.out.println("Redirecting input to " + commandInfo.get(in));
+            //System.out.println("test1");//mdw
+            if (commandInfo.get(in)==null){ //mdw
+                //System.out.println("test4");//mdw
+                throw new BatchSyntaxException("Input file does not exist: " + in);
+            } //mdw
+
             File inFile = new File(wd, commandInfo.get(in));
+
             builder.redirectInput(inFile);
         }
         
         //If the command has a file that is directed out of the stdOut 
         //redirect it to the builders output
+        if(commandInfo.get(out)==null) {//mdw
+            throw new BatchSyntaxException("Output file not defined: "+ out);
+        }//mdw
         if (out != null) {
         	System.out.println("Redirecting output to " + commandInfo.get(out));
             File outFile = new File(wd, commandInfo.get(out));
@@ -63,12 +78,10 @@ public class CmdCommand extends Command
             process = builder.start();
             
         } catch (IOException e) {
-        	System.out.println("** The process is failing to start **");
-        	
             e.printStackTrace();
-            
+            throw new BatchSyntaxException(e.getMessage());
         }
-        
+
         try {
         	
             if (process != null) {
@@ -77,6 +90,7 @@ public class CmdCommand extends Command
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            throw new BatchSyntaxException(e.getMessage());
         }
     }
 
@@ -86,13 +100,13 @@ public class CmdCommand extends Command
         id = element.getAttribute("id");
         /*if (id == null || id.isEmpty()){
             //Uncomment this line once we include catching exceptions
-            throw new ProcessException("Missing ID in CMD Command");
+            //throw new ProcessException("Missing ID in CMD Command");
         }*/
         //get the 'path' from the XML line
         path = element.getAttribute("path");
        /* if (path == null || path.isEmpty()){
             //Uncomment this line once we include catching exceptions
-            //throw new Process Exception("Missing PATH in CMD Command");
+            //throw new ProcessException("Missing PATH in CMD Command");
         }*/
         
         cmdArgs.add(path);
